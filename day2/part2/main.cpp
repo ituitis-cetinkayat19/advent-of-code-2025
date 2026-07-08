@@ -70,8 +70,7 @@ int main() {
   getline(InputFile, lineText);
   vector<pair<string, string>> ranges = splitInput(lineText);
   long long total = 0;
-  for (int i = 0; i < ranges.size(); i++) {
-    pair<string, string> range = ranges[i];
+  for (pair<string, string>& range : ranges) {
     total += invalidIdTotal(range.first, range.second);
   }
   cout << "Total: " << total;
