@@ -3,7 +3,7 @@
 #include <vector>
 using namespace std;
 
-bool canAccess(const vector<vector<char>>& grid, int& x, int& y) {
+bool canAccess(const vector<vector<char>>& grid, const int& x, const int& y) {
   if (grid[x][y] != '@') return false;
   int nearbyCount = 0;
   for (int i = x - 1; i <= x + 1; i++) {
