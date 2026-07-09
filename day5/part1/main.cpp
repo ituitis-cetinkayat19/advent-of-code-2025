@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <sstream>
 using namespace std;
 
 bool isFresh(const vector<pair<long long, long long>>& ranges, const long long& id) {
