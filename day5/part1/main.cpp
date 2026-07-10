@@ -18,12 +18,10 @@ int main() {
   vector<pair<long long, long long>> freshRanges;
   vector<long long> idsToCheck;
   while (getline(InputFile, lineText) && !lineText.empty()) {
-    pair<long long, long long> range;
     int splitIndex = lineText.find('-');
     long long first = stoll(lineText.substr(0, splitIndex));
     long long second = stoll(lineText.substr(splitIndex + 1));
-    range.first = first;
-    range.second = second;
+    pair<long long, long long> range = {first, second};
     freshRanges.push_back(range);
   }
   while (getline(InputFile, lineText)) {

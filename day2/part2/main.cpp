@@ -54,10 +54,10 @@ vector<pair<string, string>> splitInput(const string& lineText) {
   stringstream ss(lineText);
   string pairText;
   while (getline(ss, pairText, ',')) {
-    pair<string, string> pair;
     int splitIndex = pairText.find('-');
-    pair.first = pairText.substr(0, splitIndex);
-    pair.second = pairText.substr(splitIndex + 1);
+    string first = pairText.substr(0, splitIndex);
+    string second = pairText.substr(splitIndex + 1);
+    pair<string, string> pair = {first, second};
     vector.push_back(pair);
   }
   return vector;

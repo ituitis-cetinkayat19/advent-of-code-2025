@@ -34,10 +34,10 @@ vector<pair<long long, long long>> splitInput(const string& lineText) {
   stringstream ss(lineText);
   string pairText;
   while (getline(ss, pairText, ',')) {
-    pair<long long, long long> pair;
     int splitIndex = pairText.find('-');
-    pair.first = stoll(pairText.substr(0, splitIndex));
-    pair.second = stoll(pairText.substr(splitIndex + 1));
+    long long first = stoll(pairText.substr(0, splitIndex));
+    long long second = stoll(pairText.substr(splitIndex + 1));
+    pair<long long, long long> pair = {first, second};
     vector.push_back(pair);
   }
   return vector;
