@@ -3,7 +3,6 @@
 #include <vector>
 #include <set>
 #include <sstream>
-#include <math.h>
 using namespace std;
 
 long long longPow(long long base, long long exponent) {
