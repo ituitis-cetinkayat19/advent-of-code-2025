@@ -109,15 +109,17 @@ bool inSameCircuit(vector<Circuit>& circuits, const int& startBoxIndex, const in
 void matchBoxes(vector<Box>& boxes, vector<Distance>& distances, vector<Circuit>& circuits) {
   int connections = 0;
   for (const Distance& distance : distances) {
-    if (connections >= 1000) return;
+    if (connections >= 1000) return; // update required connections based on input
     int startIndex = distance.start;
     int endIndex = distance.end;
     Box& startBox = boxes[startIndex];
     Box& endBox = boxes[endIndex];
     //cout << startIndex << " (" << (startBox.matched ? "true" : "false") << ") " << endIndex << " (" << (endBox.matched ? "true" : "false") << ")" << "\n";
     if (startBox.matched && endBox.matched) { // both already belong to a circuit, match if they belong in different circuits
-      connections++; // for some reason, we need to count nothing happens part as connection
-      if (inSameCircuit(circuits, startIndex, endIndex)) continue;
+      if (inSameCircuit(circuits, startIndex, endIndex)) {
+        connections++; // for some reason, we need to count nothing happens part as connection
+        continue;
+      }
       Circuit& startCircuit = findCircuit(circuits, startIndex);
       Circuit& endCircuit = findCircuit(circuits, endIndex);
       startCircuit.pushBoxes(endCircuit.boxIndices);
@@ -131,20 +133,18 @@ void matchBoxes(vector<Box>& boxes, vector<Distance>& distances, vector<Circuit>
       circuits.push_back(newCircuit);
       startBox.matched = true;
       endBox.matched = true;
-      connections++;
     }
     else if (startBox.matched && !endBox.matched) {
       Circuit& circuit = findCircuit(circuits, startIndex);
       circuit.addBox(endIndex);
       endBox.matched = true;
-      connections++;
     }
     else if (!startBox.matched && endBox.matched) {
       Circuit& circuit = findCircuit(circuits, endIndex);
       circuit.addBox(startIndex);
       startBox.matched = true;
-      connections++;
     }
+    connections++;
     /*
     for (Circuit circuit : circuits) {
       cout << "[";
@@ -167,7 +167,6 @@ int calculateResult(vector<Circuit>& circuits) {
   if (circuitSizes.size() == 0) return 1;
   if (circuitSizes.size() == 1) return circuitSizes[0];
   if (circuitSizes.size() == 2) return circuitSizes[0] * circuitSizes[1];
-  cout << circuitSizes[0] << " " << circuitSizes[1] << " " << circuitSizes[2];
   if (circuitSizes.size() >= 3) {
     return circuitSizes[0] * circuitSizes[1] * circuitSizes[2];
   } 
