@@ -57,12 +57,7 @@ class Machine {
     }
 };
 
-vector<int> pushButtonIndex(vector<int> buttonPressIndices, const int index) { // return a new vector with the pushed value, used in recursion
-  buttonPressIndices.push_back(index);
-  return buttonPressIndices;
-}
-
-void pressButtons(Machine& machine, const int minPress, const int startIndex, const vector<int> buttonPressIndices, bool& done) {
+void pressButtons(Machine& machine, const int minPress, const int startIndex, vector<int> buttonPressIndices, bool& done) {
   if (done) return; // if a previous recursion set done, no need to calculate
   if (minPress == 0) { // if all presses are done, check if condition is met
     if (machine.conditionMet(buttonPressIndices)) {
@@ -71,7 +66,9 @@ void pressButtons(Machine& machine, const int minPress, const int startIndex, co
     return; // return regardless of done
   }
   for (int i = startIndex; i < machine.buttons.size(); i++) { // min press is reduced, index is increased to not press the same button twice, button index added to buttons to push list
-    pressButtons(machine, minPress - 1, i + 1, pushButtonIndex(buttonPressIndices, i), done);
+    buttonPressIndices.push_back(i);
+    pressButtons(machine, minPress - 1, i + 1, buttonPressIndices, done);
+    buttonPressIndices.pop_back(); // pushed version should be sent to next recursion only
   }
 }
 
