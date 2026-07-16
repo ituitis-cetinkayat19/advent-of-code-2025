@@ -18,11 +18,8 @@ class Machine {
     vector<int> requiredIndicators; // shows which indices must be on
     vector<Button> buttons;
 
-    Machine(const int indicatorCount, const vector<int>& reqInd, const vector<Button>& btns) {
-      indicators = vector<bool>(indicatorCount, false); // a machine has count amount of indicators which are off at start
-      requiredIndicators = reqInd;
-      buttons = btns;
-    }
+    Machine(const int indicatorCount, const vector<int>& requiredIndicators, const vector<Button>& buttons) // a machine has count amount of indicators which are off at start
+      : indicators(indicatorCount, false), requiredIndicators(requiredIndicators), buttons(buttons) {}
 
     bool conditionMet(const vector<int>& buttonPressIndices) { // buttonPressIndices shows which button indices will be pressed
       for (const int index : buttonPressIndices) { // for each index press that button and toggle the indicators of the button
