@@ -29,13 +29,11 @@ class Machine {
       for (int i = 0; i < indicators.size(); i++) {
         if (find(requiredIndicators.begin(), requiredIndicators.end(), i) != requiredIndicators.end()) { // check if indicator index i is required
           if (indicators[i] == false) { // if its required but off, reset the state and return false
-            resetIndicators();
-            return false;
+            return handleFail();
           } 
         } else {
           if (indicators[i] == true) { // if its not required but on, reset the state and return false
-            resetIndicators();
-            return false;
+            return handleFail();
           } 
         }
       }
@@ -47,6 +45,11 @@ class Machine {
       for (const int index : button.toggles) {
         indicators[index] = !indicators[index]; 
       }
+    }
+
+    bool handleFail() {
+      resetIndicators();
+      return false;
     }
 
     void resetIndicators() { // reset all indices to off
