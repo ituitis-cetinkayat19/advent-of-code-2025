@@ -112,7 +112,7 @@ int main()
     string buttonPart;
     string buttonToggleNumber;
 
-    while (ss >> buttonPart) { // keep reading words until end of line,
+    while (ss >> buttonPart) { // keep reading words until end of line
       if (buttonPart[0] != '(') { // ignore joltage part
         break;
       } else {
