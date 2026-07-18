@@ -2,23 +2,23 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-#include <algorithm>
+#include <set>
 using namespace std;
 
 class Button { // displays which indices a button toggles
   public:
-    vector<int> toggles;
+    set<int> toggles;
     
-    Button(const vector<int>& toggles) : toggles(toggles) {}
+    Button(const set<int>& toggles) : toggles(toggles) {}
 };
 
 class Machine {
   public:
     vector<bool> indicators; // shows the state of its indicators, true for on, false for off
-    vector<int> requiredIndicators; // shows which indices must be on
+    set<int> requiredIndicators; // shows which indices must be on
     vector<Button> buttons;
 
-    Machine(const int indicatorCount, const vector<int>& requiredIndicators, const vector<Button>& buttons) // a machine has count amount of indicators which are off at start
+    Machine(const int indicatorCount, const set<int>& requiredIndicators, const vector<Button>& buttons) // a machine has count amount of indicators which are off at start
       : indicators(indicatorCount, false), requiredIndicators(requiredIndicators), buttons(buttons) {}
 
     bool conditionMet(const vector<int>& buttonPressIndices) { // buttonPressIndices shows which button indices will be pressed
@@ -27,7 +27,7 @@ class Machine {
       }
 
       for (int i = 0; i < indicators.size(); i++) {
-        if (find(requiredIndicators.begin(), requiredIndicators.end(), i) != requiredIndicators.end()) { // check if indicator index i is required
+        if (requiredIndicators.find(i) != requiredIndicators.end()) { // check if indicator index i is required
           if (indicators[i] == false) { // if its required but off, reset the state and return false
             return handleFail();
           } 
@@ -94,7 +94,7 @@ int main()
   {
     string indicatorString;
     stringstream ss(lineText);
-    vector<int> requiredIndicators;
+    set<int> requiredIndicators;
     vector<Button> buttons;
     
     ss >> indicatorString; // obtained indicator part of the line
@@ -102,7 +102,7 @@ int main()
 
     for (int i = 1; i < indicatorString.size() - 1; i++) {
       if (indicatorString[i] == '#') {
-        requiredIndicators.push_back(i - 1); // get required indicator indices (-1 because 0-indexed)
+        requiredIndicators.insert(i - 1); // get required indicator indices (-1 because 0-indexed)
       }
     }
 
@@ -113,11 +113,11 @@ int main()
       if (buttonPart[0] != '(') { // ignore joltage part
         break;
       } else {
-        vector<int> buttonToggles;
+        set<int> buttonToggles;
         buttonPart = buttonPart.substr(1, buttonPart.size() - 2); // remove parantheses
         stringstream buttonStream(buttonPart);
         while (getline(buttonStream, buttonToggleNumber, ',')) { // get a button's each toggling index
-          buttonToggles.push_back(stoi(buttonToggleNumber));
+          buttonToggles.insert(stoi(buttonToggleNumber));
         }
         buttons.push_back(Button(buttonToggles));
       }
